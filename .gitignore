@@ -1,5 +1,5 @@
 # Specific to this project
-
+./kokorovoice/*.*
 
 # Common Practice
 .DS_Store
