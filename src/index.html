@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Kokoro Voice</title>
+  <link href="styles-output.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 p-4 transition-colors duration-200">
+  <div
+    class="max-w-4xl mx-auto flex flex-col items-center p-6 bg-white rounded-lg shadow-md transition-colors duration-200">
+    <!-- Title -->
+    <div class="text-center mb-6">
+      <h1 class="text-3xl font-bold text-red-600">Kokoro Voice</h1>
+      <p class="text-sm text-gray-600 mt-1 transition-colors duration-200">Your Local TTS Engine</p>
+    </div>
+
+    <!-- Dark/Light Mode Switch Container -->
+    <div class="w-full mb-6 relative">
+      <!-- Dark/Light Mode Switch (Left Corner) -->
+      <div class="absolute top-0 left-0 z-10 p-2">
+        <div class="flex items-center space-x-2">
+          <label for="theme-toggle"
+            class="text-sm font-medium text-gray-700 transition-colors duration-200">Theme:</label>
+          <button id="theme-toggle"
+            class="relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 bg-gray-200">
+            <span class="sr-only">Toggle dark mode</span>
+            <!-- Toggle Slider -->
+            <span id="toggle-slider"
+              class="inline-block w-5 h-5 transform bg-white rounded-full transition-transform duration-200 ease-in-out translate-x-1"
+              aria-hidden="true"></span>
+            <!-- Dark Mode Icon (Moon) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-1 h-3.5 w-3.5 text-gray-400"
+              viewBox="0 0 20 20" fill="currentColor">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+            </svg>
+            <!-- Light Mode Icon (Sun) -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-1 h-3.5 w-3.5 text-yellow-400"
+              viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Voice Selection (Right Corner) -->
+      <div class="absolute top-0 right-0 z-10 p-2">
+        <div class="flex items-center space-x-2">
+          <label for="voice-select"
+            class="text-sm font-medium text-gray-700 transition-colors duration-200">Voice:</label>
+          <select id="voice-select"
+            class="p-1.5 text-sm border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white transition-colors duration-200">
+            <option value="kokoro-82m">Kokoro (Default)</option>
+            <option value="kokoro-male">Kokoro Male</option>
+            <option value="kokoro-robotic">Kokoro Robotic</option>
+            <!-- Add more voice options as needed -->
+          </select>
+        </div>
+      </div>
+      <!-- Text Input -->
+      <textarea id="text-input"
+        class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-red-500 focus:border-transparent pt-12 transition-colors duration-200"
+        rows="5" placeholder="Enter text to convert to speech..."></textarea>
+    </div>
+
+    <!-- Convert Button -->
+    <div class="w-full flex justify-center mb-4">
+      <button id="convert-btn"
+        class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition">
+        Convert to Speech
+      </button>
+    </div>
+
+    <!-- Status Container -->
+    <div id="status-container" class="w-full mb-3 overflow-hidden transition-all duration-300 max-h-0 rounded-md">
+      <div id="status-inner" class="p-4 flex items-center justify-between bg-transparent transition-colors duration-200">
+        <div class="flex-1 flex items-center">
+          <div id="status-icon" class="flex-shrink-0 mr-3">
+            <!-- Icon will be inserted dynamically -->
+          </div>
+          <div id="status-message" class="text-sm font-medium transition-colors duration-200">
+            <!-- Status message goes here -->
+          </div>
+        </div>
+        <button id="close-status"
+          class="ml-3 flex-shrink-0 text-gray-400 hover:text-gray-500 focus:outline-none transition-colors duration-200">
+          <span class="sr-only">Close</span>
+          <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!--
+    <div class="w-full mt-2">
+      <audio id="audio-player" class="w-full border-0 transition-colors duration-200" controls></audio>
+    </div>
+    --> 
+    <!-- Audio Player Container -->
+    <div class="w-full mt-2">
+      <div class="flex items-center">
+        <audio id="audio-player" class="flex-grow border-0" controls></audio>
+        <button id="open-file-btn" class="ml-2 p-2 focus:outline-none transition-colors">
+          <span class="sr-only">Open file location</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js" type="module"></script>
+  <script>
+
+  </script>
+</body>
+
+</html>

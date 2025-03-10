@@ -1,0 +1,96 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Dark mode styles */
+.dark body {
+    @apply bg-gray-900 text-gray-100;
+}
+
+.dark .bg-white {
+    @apply bg-gray-800;
+}
+
+.dark #text-input {
+    @apply bg-gray-700 border-gray-600 text-white placeholder-gray-400;
+}
+
+.dark #voice-select {
+    @apply bg-gray-700 border-gray-600 text-white;
+}
+
+.dark label {
+    @apply text-gray-300;
+}
+
+.dark .text-gray-600 {
+    @apply text-gray-400;
+}
+
+/* Status container dark mode */
+/* Dark mode styles for status containers */
+.dark #status-container .bg-green-50 {
+    @apply bg-green-900;
+}
+
+.dark #status-container .bg-red-50 {
+    @apply bg-red-900;
+}
+
+.dark #status-container .bg-blue-50 {
+    @apply bg-slate-700;
+}
+
+.dark #status-container .bg-purple-50 {
+    @apply bg-lime-200;
+}
+
+.dark #status-container .text-green-700 {
+    @apply text-green-200;
+}
+
+.dark #status-container .text-red-700 {
+    @apply text-red-300;
+}
+
+.dark #status-container .text-blue-700 {
+    @apply text-lime-300;
+}
+
+.dark #status-container .text-purple-700 {
+    @apply text-indigo-600;
+}
+
+.dark #close-status {
+    @apply text-gray-400 hover:text-gray-300;
+}
+
+/* Audio player dark mode */
+.dark audio {
+    @apply bg-transparent text-white border-0;
+}
+
+audio {
+    @apply border-0 outline-none;
+}
+
+.dark audio::-webkit-media-controls-enclosure {
+    @apply bg-transparent border-0;
+}
+
+/* Fix for WebKit browsers (Chrome, Safari) */
+.dark audio::-webkit-media-controls-panel {
+    @apply bg-neutral-300;
+}
+
+.dark audio::-webkit-media-controls-current-time-display,
+.dark audio::-webkit-media-controls-time-remaining-display {
+    @apply text-gray-900;
+}
+
+#open-file-btn {
+    @apply text-gray-600 hover:text-red-600;
+}
+
+.dark #open-file-btn {
+    @apply text-gray-400 hover:text-red-500;
+}
