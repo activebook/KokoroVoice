@@ -42,7 +42,6 @@
   },
   "build": {
     "asar": false,
-    
     "appId": "com.activebook.kokoro-voice",
     "asarUnpack": [
       "node_modules/@huggingface/**/*"
