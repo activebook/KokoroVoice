@@ -5,13 +5,10 @@
  * https://huggingface.co/onnx-community/Kokoro-82M-ONNX/tree/main/onnx
  * folder path: ./node_modules/@huggingface/transformers/.cache/onnx-community/Kokoro-82M-ONNX/onnx/
  */
-import { ipcMain, shell } from 'electron'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import { Worker } from 'worker_threads';
-import { loadConfig } from './util.js';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const { ipcMain, shell } = require('electron');
+const { Worker } = require('worker_threads');
+const { loadConfig } = require('./util');
+const path = require('path');
 
 // TTS worker instance, keep only one instance
 let ttsWorker = null;
@@ -19,7 +16,6 @@ let ttsWorker = null;
 // Initialize the TTS worker once
 function initTTSWorker() {
     if (!ttsWorker) {
-        const __dirname = path.dirname(fileURLToPath(import.meta.url));
         const workerPath = path.join(__dirname, 'tts-worker.js');
         ttsWorker = new Worker(workerPath, {
             type: 'module' // Specify ES module type
@@ -48,7 +44,7 @@ async function loadVoices(sender) {
     });
 }
 
-export function setupTTSHandlers() {
+function setupTTSHandlers() {
     ipcMain.handle('convert-text-to-speech', async (event, text, voice, filePrefix) => {
         const worker = initTTSWorker();
         return new Promise((resolve, reject) => {
@@ -84,9 +80,14 @@ export function setupTTSHandlers() {
     });
 }
 
-export function teardownTTSHandlers() {
+function teardownTTSHandlers() {
     if (ttsWorker) {
         ttsWorker.terminate();
         ttsWorker = null;
     }
 }
+
+module.exports = {
+    setupTTSHandlers,
+    teardownTTSHandlers
+};

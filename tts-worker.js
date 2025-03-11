@@ -1,14 +1,10 @@
-import { parentPort } from 'worker_threads';
-import fs from 'fs/promises'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import { sleep, generateFilename } from './util.js';
-import * as STATUS from './status.js'
-import { KokoroTTS } from "kokoro-js";
-import { getAndSetProxyEnvironment } from "./sys_proxy.js";
-
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const { parentPort } = require('worker_threads');
+const fs = require('fs/promises');
+const path = require('path');
+const { sleep, generateFilename } = require('./util');
+const STATUS = require('./status');
+const { KokoroTTS } = require("kokoro-js");
+const { getAndSetProxyEnvironment } = require("./sys_proxy");
 
 // ***First set the proxy, otherwise kokoro-js won't work***
 getAndSetProxyEnvironment();
@@ -111,7 +107,7 @@ parentPort.on('message', async (data) => {
  * =================================
  */
 
-import { exec } from 'child_process';
+const { exec } = require('child_process');
 
 function playAudio(path) {
     return new Promise((resolve, reject) => {

@@ -1,9 +1,9 @@
-import { execSync } from 'child_process';
+const { execSync } = require('child_process');
 
 // This is a known issue with Undici's proxy handling in some configurations.
 // In node, the proxy settings are not being picked up correctly.
 // So we must set it manually by using system proxy settings through command.
-import { setGlobalDispatcher, ProxyAgent } from "undici";
+const { setGlobalDispatcher, ProxyAgent } = require("undici");
 
 // Method 2: Using the global-agent package (not recommended)
 // No use!!!
@@ -14,7 +14,7 @@ import { setGlobalDispatcher, ProxyAgent } from "undici";
 //bootstrap();
 
 
-export function getSystemProxy() {
+function getSystemProxy() {
 	try {
 		if (process.platform === 'win32') {
 			// Windows - query registry
@@ -47,7 +47,7 @@ export function getSystemProxy() {
 	return null;
 }
 
-export function getAndSetProxyEnvironment() {
+function getAndSetProxyEnvironment() {
 
 	// Set the global dispatcher to use your proxy for all fetch requests.
 	let proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
@@ -104,4 +104,6 @@ export function getAndSetProxyEnvironment() {
 	}
 }
 
-
+module.exports = {
+	getAndSetProxyEnvironment
+};

@@ -1,5 +1,6 @@
 # Specific to this project
 ./kokorovoice/*.*
+design.md
 
 # Common Practice
 .DS_Store
@@ -57,3 +58,4 @@ ts-gen
 patches/mtime-cache.json
 
 spec/fixtures/logo.png
+out/

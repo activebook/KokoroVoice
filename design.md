@@ -52,8 +52,25 @@ npx @tailwindcss/cli -i ./src/styles.css -o ./src/styles-output.css --watch
 npm start debug
 electron . debug
 
+# Build for production
+<!-- Use electron-builder -->
+npm install electron-builder --save-dev
+rm -rf dist/
+npm run build
+<!-- Build for production -->
+npm install --save-dev @electron-forge/cli
+npm install --save-dev @electron-forge/maker-dmg @electron-forge/maker-zip
+npx electron-forge import
+
 
 # What' i learnt
+
+### **Don't use type:module aka ESM in electron project
+1. The Electron ecosystem (including most build tools like electron-forge and electron-builder) was built around CommonJS and still has better support for it
+2. Many Electron-specific libraries and dependencies are CommonJS modules
+3. Native Node.js addons work more seamlessly with CommonJS
+4. Packaging and distribution tools for Electron have more mature CommonJS support
+
 
 ### About async/await
 **Even though handle is async, time-consuming CPU operations will still block the main process thread because:

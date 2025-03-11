@@ -1,10 +1,8 @@
-import { app, BrowserWindow, nativeTheme, ipcMain } from 'electron'
-import path from 'path'
-import { fileURLToPath } from 'url'
-import { setupTTSHandlers, teardownTTSHandlers } from './tts-service.js'
+const { app, BrowserWindow, nativeTheme, ipcMain } = require('electron');
+const path = require('path');
+const { setupTTSHandlers, teardownTTSHandlers } = require('./tts-service');
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+// You don't need fileURLToPath in CommonJS since __dirname is already available
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
@@ -20,7 +18,7 @@ function createWindow() {
     mainWindow.loadFile('src/index.html')
 
     // Only for development
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {

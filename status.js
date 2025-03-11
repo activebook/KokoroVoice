@@ -1,4 +1,10 @@
 // status.js - for main.js to import
-export const KOKORO_SERVICE_STATUS_START = 1 << 0;
-export const KOKORO_SERVICE_STATUS_DONE = 1 << 1;
-export const KOKORO_SERVICE_STATUS_ERROR = 1 << 2;
+const KOKORO_SERVICE_STATUS_START = 1 << 0;
+const KOKORO_SERVICE_STATUS_DONE = 1 << 1;
+const KOKORO_SERVICE_STATUS_ERROR = 1 << 2;
+
+module.exports = {
+    KOKORO_SERVICE_STATUS_START,
+    KOKORO_SERVICE_STATUS_DONE,
+    KOKORO_SERVICE_STATUS_ERROR
+}

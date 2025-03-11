@@ -1,20 +1,17 @@
-import * as fs from 'fs/promises';
-import path from 'path'
-import { fileURLToPath } from 'url'
-import toml from '@iarna/toml';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const fs = require('fs/promises');
+const path = require('path');
+const toml = require('@iarna/toml');
 
 /**
  * Utility function to pause execution for a specified time
  * @param {number} ms - Time to sleep in milliseconds
  * @returns {Promise} Promise that resolves after the specified time
  */
-export function sleep(ms) {
+function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function generateFilename(prefix = 'speech') {
+function generateFilename(prefix = 'speech') {
     const now = new Date();
 
     // Format: YYMMDD-HHMMSS
@@ -29,7 +26,7 @@ export function generateFilename(prefix = 'speech') {
     return `${prefix}_${timestamp}.wav`;
 }
 
-export async function loadConfig() {
+async function loadConfig() {
     try {
         // Load base config
         const configPath = path.join(__dirname, 'config.toml');
@@ -40,3 +37,9 @@ export async function loadConfig() {
         console.error('Error loading config:', err);
     }
 }
+
+module.exports = {
+    sleep,
+    generateFilename,
+    loadConfig
+};
