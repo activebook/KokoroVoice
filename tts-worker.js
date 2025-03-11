@@ -1,7 +1,6 @@
 const { parentPort } = require('worker_threads');
-const fs = require('fs/promises');
 const path = require('path');
-const { sleep, generateFilename } = require('./util');
+const { generateFilename } = require('./utils');
 const STATUS = require('./status');
 const { KokoroTTS } = require("kokoro-js");
 const { getAndSetProxyEnvironment } = require("./sys_proxy");
@@ -22,33 +21,30 @@ async function initModel() {
     if (!ttsModel) {
         // Load just once
         //console.log('Loading TTS model...');
+        // Use this to properly resolve model paths
+        // Set before initializing kokoro-tts
+        
         // "fp32"|"fp16"|"q8"|"q4"|"q4f16"
         ttsModel = await KokoroTTS.from_pretrained('onnx-community/Kokoro-82M-ONNX', { dtype: 'q8' });
+
         //console.log('TTS model loaded successfully!');
     }
     return ttsModel;
 }
 
-
-
-async function generateSpeech(text, voice, prefix) {
-    // For now, we'll just create a placeholder for the audio path
-    // In the next step, we'll implement the actual TTS functionality
-    const outputDir = path.join(__dirname, 'kokorovoice');
-
+async function generateSpeech(text, voice, dir, prefix) {
     try {
-        await fs.mkdir(outputDir, { recursive: true });
         const filename = generateFilename(prefix);
-        const outputPath = path.join(outputDir, filename);
-
-        //await sleep(2000); // Pause for 2 seconds
+        const outputPath = path.join(dir, filename);
 
         const tts = await initModel();
+        //tts.list_voices();
         const audio = await tts.generate(text, {
             // Use `tts.list_voices()` to list all available voices
             voice: voice,
         });
         audio.save(outputPath);
+        //console.log(`Generated speech saved to ${outputPath}`);
 
         // Send result back to main thread
         const progress = {
@@ -71,7 +67,7 @@ async function generateSpeech(text, voice, prefix) {
 }
 
 parentPort.on('message', async (data) => {
-    let { text, voice, prefix } = data;
+    let { text, voice, dir, prefix } = data;
     if (text.trim() === "") {
         const progress = {
             status: STATUS.KOKORO_SERVICE_STATUS_ERROR,
@@ -93,7 +89,7 @@ parentPort.on('message', async (data) => {
     //const result = await generateSpeech(text);
 
     // Don't need to await
-    generateSpeech(text, voice, prefix);
+    generateSpeech(text, voice, dir, prefix);
 
     //console.log('TTS job done saved path:', result)
 });

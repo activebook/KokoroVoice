@@ -7,7 +7,7 @@
  */
 const { ipcMain, shell } = require('electron');
 const { Worker } = require('worker_threads');
-const { loadConfig } = require('./util');
+const { loadConfig, getAppUserDataDir } = require('./utils');
 const path = require('path');
 
 // TTS worker instance, keep only one instance
@@ -46,7 +46,17 @@ async function loadVoices(sender) {
 
 function setupTTSHandlers() {
     ipcMain.handle('convert-text-to-speech', async (event, text, voice, filePrefix) => {
+        
+        /**
+         * due to Node.js module scoping in worker threads! 
+         * Workers load their own separate instances of modules with separate memory spaces.
+         * So we must pass the appUserDataDir to the worker thread through main thread. 
+         */
+        const appUserDataDir = getAppUserDataDir();
+
+        // Reuse the worker thread if it exists
         const worker = initTTSWorker();
+        
         return new Promise((resolve, reject) => {
             // Create worker with ES modules
             const worker = initTTSWorker();
@@ -54,6 +64,7 @@ function setupTTSHandlers() {
             worker.postMessage({
                 text: text,
                 voice: voice,
+                dir: appUserDataDir,
                 prefix: filePrefix
             });
             // Handle worker response

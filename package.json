@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
     "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
     "build:css": "tailwindcss -i ./src/styles.css -o ./src/styles-output.css",
     "watch:css": "tailwindcss -i ./src/styles.css -o ./src/styles-output.css --watch",
     "package": "electron-forge package",
@@ -37,5 +39,22 @@
     "electron-squirrel-startup": "^1.0.1",
     "kokoro-js": "^1.2.0",
     "undici": "^7.4.0"
+  },
+  "build": {
+    "asar": false,
+    "appId": "com.activebook.kokoro-voice",
+    "asarUnpack": [
+      "node_modules/@huggingface/**/*"
+    ],
+    "mac": {
+      "target": "dir",
+      "icon": "assets/logo.icns"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/logo.ico"
+    }
   }
 }

@@ -11,6 +11,14 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+let appUserDataDir = '';
+function getAppUserDataDir() {
+    return appUserDataDir;
+}
+function setAppUserDataDir(dir) {
+    appUserDataDir = dir;
+}
+
 function generateFilename(prefix = 'speech') {
     const now = new Date();
 
@@ -40,6 +48,8 @@ async function loadConfig() {
 
 module.exports = {
     sleep,
+    getAppUserDataDir,
+    setAppUserDataDir,
     generateFilename,
     loadConfig
 };
