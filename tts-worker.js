@@ -23,6 +23,9 @@ async function initModel() {
         //console.log('Loading TTS model...');
         // Use this to properly resolve model paths
         // Set before initializing kokoro-tts
+        // KokoroTTS use huggingface, so you cannot use app.asar to package
+        // It won't find files under app.asar which is not a folder
+        // So set package.json build asar:false
         
         // "fp32"|"fp16"|"q8"|"q4"|"q4f16"
         ttsModel = await KokoroTTS.from_pretrained('onnx-community/Kokoro-82M-ONNX', { dtype: 'q8' });
