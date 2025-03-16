@@ -46,6 +46,25 @@
     "asarUnpack": [
       "node_modules/@huggingface/**/*"
     ],
+    "files": [
+      "**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*/.bin",
+      "!**/node_modules/**/*.d.ts",
+      "!**/node_modules/@huggingface/**/.cache/**",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!.editorconfig",
+      "!.git",
+      "!**/.DS_Store",
+      "!.gitattributes",
+      "!.gitignore",
+      "!screenshots/**/*"
+    ],
+    "extraResources": [{
+      "from": "assets",
+      "to": "assets"
+    }],
     "mac": {
       "target": "dir",
       "icon": "assets/logo.icns"

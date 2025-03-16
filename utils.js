@@ -46,10 +46,25 @@ async function loadConfig() {
     }
 }
 
+// Read and parse the TOML file
+async function updateConfig(config) {
+    try {
+        // Convert back to TOML format
+        const updatedToml = toml.stringify(config);
+        const configPath = path.join(__dirname, 'config.toml');
+        // Write the updated content back to the file
+        await fs.writeFile(configPath, updatedToml, 'utf8');
+        return config;
+    } catch (err) {
+        console.error('Error updating TOML file:', err);
+    }
+}
+
 module.exports = {
     sleep,
     getAppUserDataDir,
     setAppUserDataDir,
     generateFilename,
-    loadConfig
+    loadConfig,
+    updateConfig
 };
